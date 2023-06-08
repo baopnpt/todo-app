@@ -1,6 +1,7 @@
 import { Button } from "./Button";
 
 export const ToDoForm = ({ inputs, handleChange, onSubmit, type }) => {
+  const NOW_DAY = new Date().toLocaleDateString("en-CA");
   return (
     <form>
       <div className="form">
@@ -31,9 +32,9 @@ export const ToDoForm = ({ inputs, handleChange, onSubmit, type }) => {
               type="date"
               name="dueDate"
               onChange={handleChange}
-              value={inputs.dueDate || ""}
-              min={new Date().toLocaleDateString("en-CA")}
-              defaultValue={new Date().toLocaleDateString("en-CA")}
+              value={inputs.dueDate || NOW_DAY}
+              min={NOW_DAY}
+              defaultValue={NOW_DAY}
             ></input>
           </div>
           <div className="piority">
