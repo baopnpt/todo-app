@@ -69,6 +69,10 @@ function App() {
 
   const onUpdate = (index, newValues) => {
     const newList = [...list];
+    if (!newValues.title) {
+      alert("Please input title");
+      return;
+    }
     newList[index] = newValues;
     localStorage.setItem("list", JSON.stringify(newList));
     setList(newList);
