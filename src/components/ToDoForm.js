@@ -3,7 +3,7 @@ import { Button } from "./Button";
 export const ToDoForm = ({ inputs, handleChange, onSubmit, type }) => {
   const NOW_DAY = new Date().toLocaleDateString("en-CA");
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <div className="form">
         <div>
           <input
@@ -34,7 +34,6 @@ export const ToDoForm = ({ inputs, handleChange, onSubmit, type }) => {
               onChange={handleChange}
               value={inputs.dueDate || NOW_DAY}
               min={NOW_DAY}
-              defaultValue={NOW_DAY}
             ></input>
           </div>
           <div className="piority">
@@ -42,8 +41,7 @@ export const ToDoForm = ({ inputs, handleChange, onSubmit, type }) => {
             <select
               onChange={handleChange}
               name="piority"
-              value={inputs.piority}
-              defaultValue={"Normal"}
+              value={inputs.piority || "Normal"}
             >
               <option value={"Low"}>Low</option>
               <option value={"Normal"}>Normal</option>
@@ -51,7 +49,7 @@ export const ToDoForm = ({ inputs, handleChange, onSubmit, type }) => {
             </select>
           </div>
         </div>
-        <Button onClick={onSubmit}>{type === "edit" ? "Update" : "Add"}</Button>
+        <Button type="submit">{type === "edit" ? "Update" : "Add"}</Button>
       </div>
     </form>
   );

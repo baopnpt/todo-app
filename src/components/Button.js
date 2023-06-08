@@ -1,7 +1,7 @@
-export const Button = ({ onClick, children, style}) => {
+export const Button = (props) => {
   return (
-    <button className="button" onClick={onClick} style={style}>
-      {children}
+    <button className="button" {...props} >
+      {props.children}
     </button>
   );
 };

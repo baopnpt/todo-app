@@ -5,10 +5,7 @@ import { Button } from "./components/Button";
 import { ToDoForm } from "./components/ToDoForm";
 
 function App() {
-  const [inputs, setInputs] = useState({
-    dueDate: new Date().toLocaleDateString("en-CA"),
-    piority: "Normal",
-  });
+  const [inputs, setInputs] = useState({});
   const [list, setList] = useState([]);
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState();
@@ -23,7 +20,7 @@ function App() {
     setSelected([]);
     setList(newList);
     localStorage.setItem("list", JSON.stringify(newList));
-    alert("Remove task succeeded!")
+    alert("Remove task succeeded!");
   };
 
   const onSubmit = (event) => {
@@ -37,7 +34,10 @@ function App() {
       {
         ...inputs,
         id: new Date().getTime(),
-        ...(!inputs.piority ?? { piority: "Normal" }),
+        ...(!inputs.piority && { piority: "Normal" }),
+        ...(!inputs.dueDate && {
+          dueDate: new Date().toLocaleDateString("en-CA"),
+        }),
       },
     ];
     localStorage.setItem("list", JSON.stringify(newList));
@@ -64,7 +64,7 @@ function App() {
     const newList = list.filter((item) => item.id !== id);
     localStorage.setItem("list", JSON.stringify(newList));
     setList(newList);
-    alert("Remove task succeeded!")
+    alert("Remove task succeeded!");
   };
 
   const onUpdate = (index, newValues) => {
@@ -72,7 +72,7 @@ function App() {
     newList[index] = newValues;
     localStorage.setItem("list", JSON.stringify(newList));
     setList(newList);
-    alert("Update task succeeded!")
+    alert("Update task succeeded!");
   };
 
   useEffect(() => {
@@ -117,17 +117,19 @@ function App() {
           onChange={(e) => setSearch(e.target.value)}
         />
         <div className="list-todo">
-          {list.sort((a, b)=> new Date(a.dueDate) - new Date(b.dueDate)).map((e, index) => (
-            <ToDoCard
-              item={e}
-              onRemove={onRemove}
-              onUpdate={onUpdate}
-              onSelected={onSelected}
-              onRemoveSelected={onRemoveSelected}
-              index={index}
-              key={e.id}
-            />
-          ))}
+          {list
+            .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+            .map((e, index) => (
+              <ToDoCard
+                item={e}
+                onRemove={onRemove}
+                onUpdate={onUpdate}
+                onSelected={onSelected}
+                onRemoveSelected={onRemoveSelected}
+                index={index}
+                key={e.id}
+              />
+            ))}
         </div>
         {selected.length > 0 && (
           <div className="line-last">
@@ -136,7 +138,10 @@ function App() {
             </div>
             <div>
               <Button style={{ backgroundColor: "#1C9AFA" }}>Done</Button>
-              <Button onClick={onRemoveAll} style={{ backgroundColor: "#FF2626" }}>
+              <Button
+                onClick={onRemoveAll}
+                style={{ backgroundColor: "#FF2626" }}
+              >
                 Remove
               </Button>
             </div>
